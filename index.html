@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>YouBike 臺北市公共自行車即時資訊</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3_0ln43EK0_uJie8yguO-PPLYajT7TQA"></script>
+
+</head>
+
+<body>
+    <!-- <img class="logo" src="image/logo.png" alt="YouBike 臺北市公共自行車即時資訊" style="float:left"> -->
+    <div id="map-canvas"></div>
+    <div id="app">
+        <div id="center-btn" class="center-btn">
+            <i class="fas fa-bullseye"></i>
+        </div>
+        <div class="wrapper">
+            <header>
+                <div class="search">
+                    <input type="text" class="searchTerm fontAwesome" placeholder="&#xf002; 搜尋站名及地址" v-model.trim="search">
+                </div>
+            </header>
+            <div class="container">
+                <div class="box" v-for="s in filterStops" @click="showStopInfo(s)">
+                    <div class="box-status" :style="{ background: s.color }"></div>
+                    <div class="box-title">{{ s.sna }}</div>
+                    <div class="box-tips">
+                        <div class="tips">
+                            可借 {{ s.sbi }} 輛
+                        </div>
+                        <div class="tips">
+                            可停 {{ s.bemp }} 輛
+                        </div>
+                        <div class="tips">
+                            距離 {{ s.distance | distanceFormat }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
