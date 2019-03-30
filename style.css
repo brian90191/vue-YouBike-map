@@ -60,7 +60,7 @@ a {
 
 .center-btn {
 	position: fixed;
-	top: 60px;
+	top: 10px;
 	left: 15px;
 	width: 36px;
 	height: 36px;
@@ -81,6 +81,7 @@ a {
 
 .list-toggle-btn{
 	position: fixed;
+	top: 20px;
 	font-size:20px;
 	color:#FFFFFF;
 	width:40px;
@@ -100,12 +101,10 @@ a {
 }
 
 .open-list {
-	top: 75px;
 	right: 10px;
 }
 
 .close-list {
-	top: 20px;
 	right: 280px;
 }
 

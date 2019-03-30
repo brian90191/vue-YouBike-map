@@ -118,6 +118,9 @@ var vm = new Vue({
             var mapOptions = {
                 center: new google.maps.LatLng(this.userLocation.lat, this.userLocation.lng),
                 zoom: this.zoom,
+                fullscreenControl: false,
+                mapTypeControl: false,
+                scaleControl: false,
             };
 
             if (map === undefined) {
