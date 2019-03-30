@@ -23,11 +23,17 @@ var vm = new Vue({
             lat: 25.06,
             lng: 121.55
         },
-        zoom: 13
+        userLocMarker: undefined,
+        zoom: 13,
+        showList: true,
     },
     filters: {
-        distanceFormat: value => value < 1000 ? `${value.toFixed(0)} 公尺` : `${(value/1000).toFixed(2)} 公里`,
-        timeFormat: t => this.vm.getTimeFormat(t)
+        distanceFormat: function(value) {
+            return value < 1000 ? `${value.toFixed(0)} 公尺` : `${(value/1000).toFixed(2)} 公里`;
+        },
+        timeFormat: function( t ) {  
+            return this.getTimeFormat(t); 
+        }
     },
     created() {
         var self = this,
@@ -40,11 +46,11 @@ var vm = new Vue({
             self.ubikeStops = self.data_clean(stopsData);
         });
 
-        // 取得使用者當前位置
-        this.setCurrentLocation();
-
         // 初始化 google map
         google.maps.event.addDomListener(window, 'load', this.map_initialize);
+
+        // 取得使用者當前位置
+        this.setCurrentLocation();
     },
     computed: {
         filterStops: function () {
@@ -56,7 +62,7 @@ var vm = new Vue({
                     s.ar.indexOf(self.search) > -1 ||
                     s.snaen.indexOf(self.search) > -1 ||
                     s.aren.indexOf(self.search) > -1
-            })
+            });
         }
     },
     watch: {
@@ -68,9 +74,10 @@ var vm = new Vue({
             // 更新 markers
             this.addMakers();
         },
-        userLocation: function () {
-            this.setSelfLocIcon();
-        }
+        userLocation: function() {
+            this.setSelfLocIcon(this.userLocation.lat, this.userLocation.lng);
+        },
+
     },
     methods: {
         data_clean: function (data) {
@@ -102,6 +109,8 @@ var vm = new Vue({
                     self.userLocation.lat = position.coords.latitude;
                     self.userLocation.lng = position.coords.longitude;
                     self.zoom = 16;
+
+                    self.setSelfLocIcon(position.coords.latitude, position.coords.longitude);
                 });
             }
         },
@@ -116,7 +125,6 @@ var vm = new Vue({
             }
 
             this.setCenterControl();
-            this.setSelfLocIcon();
             this.addMakers();
         },
         setCenterControl: function () {
@@ -127,10 +135,12 @@ var vm = new Vue({
                 map.setZoom(16);
             });
         },
-        setSelfLocIcon: function () {
-            var self = this;
-            new google.maps.Marker({
-                position: self.userLocation,
+        setSelfLocIcon: function (lat, lng) {
+            if (!map) return;
+
+            if (this.userLocMarker) userLocMarker.setMap(null);
+            var selfLocMarker = new google.maps.Marker({
+                position: { lat, lng },
                 map,
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
@@ -141,10 +151,14 @@ var vm = new Vue({
                     scale: 8,
                 },
             });
+            this.userLocMarker = selfLocMarker;
+
+            //設定初始的 center 和 zoom level
+            map.setCenter({ lat, lng });
+            map.setZoom(16);
         },
         addMakers: function () {
             var position, title, content, iconColor;
-            var self = this;
 
             // 清除已存在的 marker
             if (this.markers.length !== 0) {

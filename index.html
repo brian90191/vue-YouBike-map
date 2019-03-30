@@ -21,7 +21,9 @@
         <div id="center-btn" class="center-btn">
             <i class="fas fa-bullseye"></i>
         </div>
-        <div class="wrapper">
+        <a class="list-toggle-btn open-list" v-show="!showList" @click.prevent="showList = !showList"><i class="fas fa-bars"></i></i></a>
+        <a class="list-toggle-btn close-list" v-show="showList" @click.prevent="showList = !showList"><i class="fas fa-times"></i></i></a>
+        <div class="wrapper" v-show="showList">
             <header>
                 <div class="search">
                     <input type="text" class="searchTerm fontAwesome" placeholder="&#xf002; 搜尋站名及地址" v-model.trim="search">
