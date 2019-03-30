@@ -3,3 +3,5 @@
 使用 VueJs 建立台北市 YouBike 站點的地圖資訊
 
 Demo: https://brian90191.github.io/vue-YouBike-map/
+
+![image](https://github.com/brian90191/vue-YouBike-map/blob/master/demo_image.png)
