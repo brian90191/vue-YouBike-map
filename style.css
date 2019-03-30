@@ -222,3 +222,10 @@ header {
 	display: inline-block;
 	margin-right: 10px;
 }
+
+.data-not-found {
+	color: #d9534f;
+	text-align: center;
+	margin: 10px;
+	font-weight: 700;
+}

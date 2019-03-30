@@ -29,7 +29,7 @@
                     <input type="text" class="searchTerm fontAwesome" placeholder="&#xf002; 搜尋站名及地址" v-model.trim="search">
                 </div>
             </header>
-            <div class="container">
+            <div class="container" v-if="filterStops.length > 0">
                 <div class="box" v-for="s in filterStops" @click="showStopInfo(s)">
                     <div class="box-status" :style="{ background: s.color }"></div>
                     <div class="box-title">{{ s.sna }}</div>
@@ -45,6 +45,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="data-not-found" v-else>
+                <i class="fas fa-exclamation-triangle"></i> 找不到資料
             </div>
         </div>
     </div>
